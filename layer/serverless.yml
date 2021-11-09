@@ -1,0 +1,11 @@
+app: example
+component: layer
+name: nextDemo-layer
+
+inputs:
+  region: ap-singapore
+  name: ${name}
+  src: ../node_modules
+  runtimes:
+    - Nodejs10.15
+    - Nodejs12.16

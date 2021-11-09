@@ -1,0 +1,38 @@
+component: http
+name: nextDemo
+inputs:
+  region: ap-singapore
+  src:
+    dist: ./
+    hook: npm run build
+    exclude:
+      - .env
+  faas:
+    runtime: Nodejs12.16
+    framework: nextjs
+    name: '${name}'
+    layers:
+      - name: ${output:${stage}:${app}:${name}-layer.name}
+        version: ${output:${stage}:${app}:${name}-layer.version}
+  apigw:
+    customDomains:
+      - domain: 'yourDomain.com' 
+        certificateId: ididid # 证书 ID
+        # 这里将 API 网关的 release 环境映射到根路径
+        pathMappingSet:
+          - path: /
+            environment: release
+        protocols:
+          - https
+    protocols:
+      - http
+      - https
+  assets:
+    cos:
+      bucket: 'your bucket name'
+    cdn:
+      domain: 'your domain here'
+      https:
+        certId: 'your certId'
+        http2: 'on'
+app: example
